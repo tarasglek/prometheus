@@ -1,0 +1,50 @@
+# Sample config for Prometheus.
+
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'example'
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+rule_files:
+  # - "first.rules"
+  # - "second.rules"
+
+# A scrape configuration containing exactly one endpoint to scrape: 
+# Here it's Prometheus itself.
+scrape_configs:
+  - job_name: 'power'
+    scrape_interval: 8s
+    scrape_timeout: 7s
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      - targets: ['power-exporter:8080']
+  - job_name: 'node-ping'
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+      - targets: &ping_targets
+        - my.xfinity.com
+        - garage-ap
+        - upstairs-ap
+        - philips-hue 
+        - speedtest.netflix.com
+        - lede
+        - swift3
+        - camerapi
+        - Ellen
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__address__]
+        target_label: instance
+      - source_labels: []
+        target_label: __address__
+        replacement: node-ping:3000
