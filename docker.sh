@@ -2,9 +2,11 @@ docker rm -f power-exporter
 docker rm -f node-ping
 docker rm -f prometheus
 docker rm -f grafana
+docker rm -f kindle-planet
 set -x -e
+docker run --restart on-failure -d -p 8000:8080 --name kindle-planet tarasglek/kindle-planet  
 docker run --restart on-failure -d -p 3000:3000 --name node-ping tarasglek/node-ping  
-docker run --restart on-failure -d -p 8080:8080 --name power-exporter -e RAINFOREST=192.168.1.215 tarasglek/power-exporter:1
+docker run --restart on-failure -d -p 8080:8080 --name power-exporter -e RAINFOREST=192.168.1.215 tarasglek/power-exporter:2
 docker run --restart on-failure -d -p 81:9090 -v /home/taras/prom:/prometheus \
   --name prometheus --link power-exporter \
   --link node-ping \
