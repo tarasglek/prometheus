@@ -1,0 +1,11 @@
+groups:
+- name: alert.rules
+  rules:
+  - alert: service_down
+    expr: probe_success{instance="openpilot"}==1
+    # expr: probe_success{instance="192.168.1.206"}==1
+    annotations:
+      firing: http://gate/switch/gateonclosed/turn_off
+      resolved: http://gate/switch/gateonclosed/turn_on
+      method: post
+      

@@ -10,21 +10,38 @@ global:
   external_labels:
       monitor: 'example'
 
+# alerting rules
 # Load and evaluate rules in this file every 'evaluation_interval' seconds.
 rule_files:
+ - 'alert.rules'
   # - "first.rules"
   # - "second.rules"
-
+alerting:
+  alertmanagers:
+    - static_configs:
+      - targets: ['alertmanager:9093']
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
   - job_name: 'power'
-    scrape_interval: 8s
-    scrape_timeout: 7s
+    scrape_interval: 5s
+    scrape_timeout: 5s
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
     static_configs:
-      - targets: ['power-exporter:8080', 'lede:9100']
+      - targets: ['power-exporter:8080']
+  - job_name: 'lede'
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      - targets: ['lede:9100']
+  - job_name: 'cpu_power'
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      - targets: 
+        - summit.glek.net:9999
+        - summit.glek.net:9100
   - job_name: 'node-ping'
     metrics_path: /probe
     params:
@@ -33,12 +50,12 @@ scrape_configs:
       - targets: &ping_targets
         - my.xfinity.com
         # - garage-ap
-        - philips-hue
         - speedtest.netflix.com
-        - lede
-        - swift3
         # - coop
-        - Ellen
+        - backcam
+        - porchcam
+        - openpilot
+        - '192.168.1.206'
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -47,3 +64,7 @@ scrape_configs:
       - source_labels: []
         target_label: __address__
         replacement: node-ping:3000
+  - job_name: 'node'
+    file_sd_configs:
+    - files:
+      - '/tmp/file_sd.json'
