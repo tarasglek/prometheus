@@ -28,6 +28,6 @@ route:
 receivers:
   - name: webhook
     webhook_configs:
-    # - url: 'http://alertmanager2esphome:9000/alert'
-    - url: 'http://t480.lan:9000/alert'
+    - url: 'http://alertmanager2esphome:9000/alert'
+    # - url: 'http://t480.lan:9000/alert'
   - name: blackhole
