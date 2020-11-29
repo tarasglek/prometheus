@@ -1,11 +1,32 @@
 groups:
 - name: alert.rules
   rules:
-  - alert: service_down
+  - alert: openpilot
     expr: probe_success{instance="openpilot"}==1
-    # expr: probe_success{instance="192.168.1.206"}==1
+    labels:
+      repeat_interval: 10s
     annotations:
-      firing: http://gate/switch/gateonclosed/turn_off
-      resolved: http://gate/switch/gateonclosed/turn_on
+      firing: http://gate/switch/open_for_30min/toggle
       method: post
-      
+  - alert: fridge_open
+    expr: esphome_sensor_value{id="temperature",instance="fridge:80"} > 4
+    labels:
+      repeat_interval: 1m
+    annotations:
+      firing: http://192.168.1.181:5002/api/chromecast?text=Julie%20please%20close%20the%20fridge&myip=192.168.1.181&chromecast=Garage%20speaker
+      method: get
+  - alert: 10s_test
+    expr: percentage > 0
+    labels:
+      repeat_interval: 10s
+    annotations:
+      firing: http://192.168.1.205:4000/10s
+      method: post
+  - alert: 1m_test
+    expr: percentage > 0
+    labels:
+      repeat_interval: 1m
+      url_param_text: One minute, my value is {{ $value }}
+    annotations:
+      firing: http://192.168.1.205:4000/1m?someparm&another=foo
+      method: post

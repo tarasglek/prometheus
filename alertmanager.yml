@@ -6,15 +6,28 @@ route:
 
   group_interval: 1s
 
-  repeat_interval: 5s
+  repeat_interval: 10s
 
   receiver: webhook
 
   routes:
-  - receiver: webhook
-    continue: true  
+  # by default all alerts get ignored
+  - receiver: blackhole
+    continue: true 
+  # now pull out the 10s ones
+  - match:
+      repeat_interval: 10s
+    receiver: webhook
+    repeat_interval: 10s
+# now pull out the 10s ones
+  - match:
+      repeat_interval: 1m
+    receiver: webhook
+    repeat_interval: 1m
+
 receivers:
-    - name: webhook
-      webhook_configs:
-      - url: 'http://192.168.1.205:9000/alert'
-        # send_resolved: true
+  - name: webhook
+    webhook_configs:
+    # - url: 'http://alertmanager2esphome:9000/alert'
+    - url: 'http://t480.lan:9000/alert'
+  - name: blackhole
