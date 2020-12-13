@@ -17,7 +17,7 @@ groups:
     annotations:
       firing: http://192.168.1.181:5002/api/chromecast?myip=192.168.1.181
       method: get
- - alert: pump_didnt_run_enough
+  - alert: pump_didnt_run_enough
     # There are 168hours in a week, make pump run for atleast 20hours
     expr: (avg_over_time(esphome_switch_value{id="pump"}[1w]) < 20/168) > esphome_switch_value{id="pump"}
     labels:
