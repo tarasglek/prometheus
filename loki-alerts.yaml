@@ -1,0 +1,14 @@
+groups:
+  - name: should_fire
+    interval: 1s
+    rules:
+      - alert: HighPercentageError
+        #for: sam
+        expr: |
+          count_over_time({job="systemd-journal",unit="dnsmasq.service"}|~"DHCPACK.*stylus"[1m]) > 0
+        labels:
+          repeat_interval: 1m
+          url_param_text: Phone wifi on
+          url_param_chromecast: Garage speaker
+        annotations:
+            firing: http://192.168.1.181:5002/api/chromecast?myip=192.168.1.181

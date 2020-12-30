@@ -9,7 +9,7 @@ groups:
       firing: http://gate/switch/open_for_30min/toggle
       method: post
   - alert: fridge_open
-    expr: esphome_sensor_value{id="temperature",instance="fridge:80"} > 4
+    expr: esphome_sensor_value{id="temperature",instance="fridge:80"} > 6
     labels:
       repeat_interval: 1m
       url_param_text: Please close the fridge. Fridge temperature is {{ $value }} celcius
