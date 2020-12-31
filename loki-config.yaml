@@ -29,15 +29,15 @@ schema_config:
 
 storage_config:
   boltdb_shipper:
-    active_index_directory: /tmp/boltdb-shipper-active
-    cache_location: /tmp/boltdb-shipper-cache
+    active_index_directory: /bolt/boltdb-shipper-active
+    cache_location: /bolt/boltdb-shipper-cache
     cache_ttl: 24h         # Can be increased for faster performance over longer query periods, uses more disk space
     shared_store: filesystem
   filesystem:
     directory: /chunks
 
 compactor:
-  working_directory: /tmp/boltdb-shipper-compactor
+  working_directory: /bolt/boltdb-shipper-compactor
   shared_store: filesystem
 
 limits_config:
