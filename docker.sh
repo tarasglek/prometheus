@@ -1,3 +1,4 @@
+#!/bin/bash
 docker rm -f node-ping
 docker rm -f prometheus
 docker rm -f dhcp-leases2file_sd
@@ -7,8 +8,8 @@ docker rm -f loki
 docker rm -f grafana
 docker rm -f moztts2googlehome
 set -x -e
-docker run --restart on-failure -d -p 80:3000 --name=grafana -v $(pwd)/grafana:/var/lib/grafana grafana/grafana
-docker run --restart on-failure -d --name loki -v $(pwd):/mnt/config -v $(pwd)/loki:/tmp/loki -v $(pwd)/loki-alerts.yaml:/tmp/loki/rules/subdir/loki-alerts.yaml  -p 3100:3100 grafana/loki:2.0.0 -config.file=/mnt/config/loki-config.yaml -log.level=error
+docker run --restart on-failure -d -p 80:3000 --user $UID --name=grafana -v $(pwd)/grafana:/var/lib/grafana grafana/grafana
+docker run --restart on-failure -d --name loki --user $UID -v $(pwd)/loki-config.yaml:/loki-config.yaml -v $(pwd)/loki/chunks:/chunks -v $(pwd)/loki-alerts.yaml:/alerts/loki-alerts.yaml  -p 3100:3100 grafana/loki:2.0.0 -config.file=/loki-config.yaml -log.level=info 
 docker run --restart on-failure -d -p 5002:5002 --net host --name moztts2googlehome moztts2googlehome
 docker run --restart on-failure -d -p 3000:3000 --name node-ping node-ping  
 docker run --restart on-failure -d -v /export/firewalls:/input -v /tmp:/output  --name dhcp-leases2file_sd  dhcp-leases2file_sd
