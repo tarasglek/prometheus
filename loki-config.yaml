@@ -56,7 +56,7 @@ ruler:
     type: local
     local:
       directory: /alerts
-  rule_path: /home/loki
+  rule_path: /tmp
   alertmanager_url: http://prom:9093
   ring:
     kvstore:

@@ -2,7 +2,7 @@ groups:
   - name: should_fire
     interval: 1s
     rules:
-      - alert: HighPercentageError
+      - alert: PhoneOnline
         #for: sam
         expr: |
           count_over_time({job="systemd-journal",unit="dnsmasq.service"}|~"DHCPACK.*stylus"[1m]) > 0
