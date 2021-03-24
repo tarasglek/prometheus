@@ -2,7 +2,8 @@ groups:
 - name: alert.rules
   rules:
   - alert: openpilot
-    expr: probe_success{instance="openpilot"}==1
+    expr: (probe_success{instance="openpilot"} or probe_success{instance="iPhoneLstierova"} ) ==1
+    #expr: probe_success{instance="openpilot"}==1
     labels:
       repeat_interval: 10s
     annotations:
@@ -18,8 +19,9 @@ groups:
       firing: http://192.168.1.181:5002/api/chromecast?myip=192.168.1.181
       method: get
   - alert: pump_didnt_run_enough
-    # There are 168hours in a week, make pump run for atleast 20hours
-    expr: (avg_over_time(esphome_switch_value{id="pump"}[1w]) < 20/168) > esphome_switch_value{id="pump"}
+    # There are 168hours in a week, make pump run for atleast 15hours
+    expr: (avg_over_time(esphome_switch_value{id="pump"}[1w]) < 15/168) > esphome_switch_value{id="pump"}
+    #expr: (avg_over_time(esphome_switch_value{id="pump"}[1w]) < 20/168) > esphome_switch_value{id="pump"}
     labels:
       repeat_interval: 1m
     annotations:

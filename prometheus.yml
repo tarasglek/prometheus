@@ -56,6 +56,10 @@ scrape_configs:
         - porchcam
         - openpilot
         - '192.168.1.206'
+        - air-quality-sensor
+        - poolcam
+        - deco-m5-garage
+        - iPhoneLstierova
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
