@@ -10,7 +10,7 @@ docker rm -f grafana
 docker rm -f moztts2googlehome
 set -x -e
 docker run --restart on-failure -d -p 80:3000 --user $UID --name=grafana -v $SELF/grafana:/var/lib/grafana -v $SELF/grafana/grafana.ini:/etc/grafana/grafana.ini grafana/grafana
-docker run --restart on-failure -d --name loki --user $UID -v $SELF/loki-config.yaml:/loki-config.yaml -v ~/loki-index:/bolt -v $SELF/loki/chunks:/chunks -v $SELF/loki-alerts:/alerts  -p 3100:3100 grafana/loki:2.0.0 -config.file=/loki-config.yaml -log.level=info
+docker run --restart on-failure -d --name loki --user $UID -v $SELF/loki-config.yaml:/loki-config.yaml -v ~/loki-index:/bolt -v $SELF/loki/chunks:/chunks -v $SELF/loki-alerts:/alerts  -p 3100:3100 grafana/loki:2.2.1 -config.file=/loki-config.yaml -log.level=info
 docker run --restart on-failure -d -p 5002:5002 --net host --name moztts2googlehome moztts2googlehome
 docker run --restart on-failure -d -p 3000:3000 --name node-ping node-ping
 docker run --restart on-failure -d -v /export/firewalls:/input -v /tmp:/output  --name dhcp-leases2file_sd  dhcp-leases2file_sd
