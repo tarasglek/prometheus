@@ -19,6 +19,7 @@ docker run --restart on-failure -d -p 9093:9093 -v /home/taras/prom:/prometheus 
 docker run --restart on-failure -d -p 81:9090 -p 9090 -v /home/taras/prom:/prometheus \
   -v /tmp:/tmp \
   --name prometheus --link node-ping  --link alertmanager \
+  --link loki \
   prom/prometheus --config.file=/prometheus/prometheus.yml --storage.tsdb.retention.size=100GB --storage.tsdb.retention.time=365d --web.enable-lifecycle
 # docker run \
 #   -d \

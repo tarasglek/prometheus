@@ -42,6 +42,7 @@ scrape_configs:
       - targets: 
         - summit.glek.net:9999
         - summit.glek.net:9100
+        - loki:3100
   - job_name: 'node-ping'
     metrics_path: /probe
     params:
